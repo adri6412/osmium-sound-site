@@ -18,7 +18,7 @@ project). It runs on push to `main`, on `workflow_dispatch`, and on a
 🚨 The deploy also carries the **x86 OTA manifests**: Cloudflare Pages serves the
 whole snapshot at once, and devices read
 `osmium-sound.pages.dev/ota/latest-<channel>.json`. The workflow pulls `ota/` from
-the public `gh-pages` branch of `adri6412/osmium-sound` (written by its
+the public `gh-pages` branch of `adri6412/osmium-sound-x86` (written by its
 `build-ui-ota.yml`) and includes it in every deployment. After a release writes
 `ota/`, `osmium-sound` dispatches `ota-updated` here.
 

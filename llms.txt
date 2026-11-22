@@ -3,7 +3,7 @@
 > Osmium Sound is free, open-source software that turns an ordinary x86 mini PC (or an old PC) into a dedicated hi-fi music player and network streamer, with a touchscreen interface, bit-perfect playback to a USB DAC, streaming services, a music library on local disks or a NAS, CD ripping and over-the-air updates. It is a complete operating system: you write it to a USB stick, install it, and the PC becomes a music appliance. Made in Italy; the website and the manual are in English and Italian.
 
 Website: https://osmiumsound.it
-Source code: https://github.com/adri6412/osmium-sound
+Source code: https://github.com/adri6412/osmium-sound-x86
 License: AGPL-3.0 (free and open source); commercial licences available on request
 Price: free, no subscription and no account needed
 Contact: support@osmiumsound.it (help), info@osmiumsound.it (everything else)
@@ -70,7 +70,7 @@ Debian 13 "trixie" as a read-only system image with two A/B slots (RAUC), a nati
 - [Download and install](https://osmiumsound.it/#install)
 - [Hardware requirements](https://osmiumsound.it/#hardware)
 - [Android companion app on Google Play](https://play.google.com/store/apps/details?id=com.osmium.sound.companion)
-- [Releases and changelog on GitHub](https://github.com/adri6412/osmium-sound/releases)
+- [Releases and changelog on GitHub](https://github.com/adri6412/osmium-sound-x86/releases)
 - [Privacy policy](https://osmiumsound.it/privacy)
 
 ## In italiano
