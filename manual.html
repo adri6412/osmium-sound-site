@@ -155,6 +155,17 @@
   }
   ol.steps > li > strong:first-child{display:block; color:var(--text); margin-bottom:2px}
 
+  /* ── screenshots ─────────────────────────────────────── */
+  figure.shot{margin:16px 0; padding:0}
+  figure.shot img{
+    display:block; width:100%; height:auto; border-radius:var(--radius);
+    border:1px solid var(--border); background:var(--surface-2);
+  }
+  figure.shot img.narrow{max-width:560px}
+  figure.shot figcaption{
+    margin-top:7px; font-size:12.5px; color:var(--muted); line-height:1.5;
+  }
+
   /* ── tables ──────────────────────────────────────────── */
   table{width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px}
   th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border)}
@@ -667,6 +678,10 @@
       <section id="en-streaming">
         <h2>Streaming services</h2>
         <p>Spotify, TIDAL, Qobuz and Deezer play on the device through Lyrion Music Server, the music server inside it. You need your own subscription to the service; Spotify and Deezer only work with a paid plan (Premium, Family…). Each service is added once, then you sign in once with your account.</p>
+        <div class="box tip">
+          <span class="label">Where you sign in</span>
+          <p>You do <strong>not</strong> type your password on the device's own screen. When you open a service there before it is connected, the device tells you: <em>“To sign in to Qobuz, open its plugin in the Lyrion Music Server settings and finish there.”</em> That is exactly what this page walks you through — you do it once, from a phone or a computer, and after that the service just works on the device.</p>
+        </div>
 
         <h3>1. Add the service</h3>
         <p>The easiest way is to tick it during setup, in the <em>Music services</em> step. To add one later:</p>
@@ -678,6 +693,10 @@
           <li><strong>Tick the service and apply</strong>
             Find it in the list (Spotify is called <em>Spotty</em>), tick it, press <em>Apply</em> and let Lyrion restart when it asks.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-lms-home.jpg" alt="Lyrion Music Server home page in the browser">
+          <figcaption>Lyrion's page in the browser, at <code>http://&lt;device-ip&gt;:9000</code>. The main menu (the ≡ icon, top left) is where <em>Server settings</em> lives.</figcaption>
+        </figure>
 
         <h3>2. Sign in with your account</h3>
         <p>On Lyrion's page: main menu → <strong>Server settings</strong> → <strong>Advanced</strong>, then choose the service in the list at the top of the page. These pages come from the people who make each plugin, so some of them are only in English.</p>
@@ -689,6 +708,10 @@
           <li><strong>Authorize playback, from the Spotify app</strong>
             The settings page now asks for a second step. Open the Spotify app on your phone or computer (the website won't do), play any song, open the list of devices you can play on and choose <strong>Spotify Authorization</strong>. Wait a few seconds — sometimes up to half a minute: the page in Lyrion updates by itself.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-spotty-auth.png" alt="Spotify plugin page with the green Sign in with Spotify button">
+          <figcaption>Spotify's page: a paid subscription is required, then you press the green <em>Sign in with Spotify</em> button.</figcaption>
+        </figure>
         <p>You then choose Spotify music from the device (the Apps tab) or from Lyrion. The device does not appear as a speaker in the Spotify app.</p>
 
         <h4>TIDAL</h4>
@@ -698,6 +721,10 @@
           <li><strong>Allow access on TIDAL</strong>
             Open the link, sign in to TIDAL and allow access. Come back to Lyrion's page: it updates by itself and shows your account. Under <em>Quality</em> you choose how good the sound should be.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-tidal-auth.png" alt="TIDAL Authorization page with the sign-in link">
+          <figcaption>TIDAL's page: press <em>Add Account</em>, then open the link that appears to sign in and allow access.</figcaption>
+        </figure>
 
         <h4>Qobuz</h4>
         <ol class="steps">
@@ -706,6 +733,14 @@
           <li><strong>Choose the quality</strong>
             Under <em>Preferred format</em> choose the best quality your subscription allows.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-qobuz-account.png" alt="Qobuz account page with username and password fields">
+          <figcaption>Qobuz's page: type your e-mail (or username) and password, then press <em>Add</em>.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/screens/manual/svc-qobuz-quality.png" alt="Qobuz preferred format set to FLAC 16 bits 44.1 kHz">
+          <figcaption>Lower down the same page: <em>Preferred format</em> sets the sound quality.</figcaption>
+        </figure>
 
         <h4>Deezer</h4>
         <p>Deezer does not ask for your password: it wants a code, called <strong>ARL</strong>, that the Deezer website keeps once you are signed in. On a computer, with Chrome or Edge:</p>
@@ -717,6 +752,10 @@
           <li><strong>Copy it into Lyrion</strong>
             Copy the long value of that line, paste it into the <em>ARL</em> box on Deezer's settings page in Lyrion and press <em>Add/Refresh</em>.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-deezer-arl.png" alt="Deezer plugin page with the ARL field and Add/Refresh button">
+          <figcaption>Deezer's page: paste the <code>arl</code> code into the <em>ARL</em> box and press <em>Add/Refresh</em>. Under <em>Quality</em> you set the sound quality.</figcaption>
+        </figure>
         <p>If one day Deezer stops playing, the code has expired: repeat these steps.</p>
 
         <h3>3. Listen</h3>
@@ -1290,6 +1329,10 @@
       <section id="it-streaming">
         <h2>Servizi di streaming</h2>
         <p>Spotify, TIDAL, Qobuz e Deezer suonano sull'apparecchio attraverso Lyrion Music Server, il server musicale che ha dentro. Serve il tuo abbonamento al servizio; Spotify e Deezer funzionano solo con un piano a pagamento (Premium, Family…). Ogni servizio si aggiunge una volta, poi si entra una volta con il proprio account.</p>
+        <div class="box tip">
+          <span class="label">Dove si entra</span>
+          <p>La password <strong>non</strong> si scrive sullo schermo dell'apparecchio. Se apri un servizio lì prima di averlo collegato, l'apparecchio ti dice: <em>«Per accedere a Qobuz, apri il suo plugin nelle impostazioni del Lyrion Music Server e completa lì l'accesso.»</em> È esattamente ciò che spiega questa pagina — lo fai una volta sola, da un telefono o da un computer, e dopo il servizio funziona sull'apparecchio.</p>
+        </div>
 
         <h3>1. Aggiungi il servizio</h3>
         <p>Il modo più semplice è spuntarlo durante la configurazione, al passaggio <em>Servizi musicali</em>. Per aggiungerne uno dopo:</p>
@@ -1301,6 +1344,10 @@
           <li><strong>Spunta il servizio e applica</strong>
             Cercalo nell'elenco (Spotify si chiama <em>Spotty</em>), spuntalo, premi <em>Applica</em> e lascia che Lyrion si riavvii quando lo chiede.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-lms-home.jpg" alt="Pagina iniziale di Lyrion Music Server nel browser">
+          <figcaption>La pagina di Lyrion nel browser, a <code>http://&lt;ip-dispositivo&gt;:9000</code>. Il menu principale (l'icona ≡, in alto a sinistra) è dove si trovano le <em>Impostazioni Server</em>.</figcaption>
+        </figure>
 
         <h3>2. Entra con il tuo account</h3>
         <p>Nella pagina di Lyrion: menu principale → <strong>Impostazioni Server</strong> → <strong>Avanzate</strong>, poi scegli il servizio nell'elenco in alto nella pagina. Queste pagine sono fatte da chi crea ciascun plugin, quindi alcune sono solo in inglese.</p>
@@ -1312,6 +1359,10 @@
           <li><strong>Autorizza la riproduzione, dall'app di Spotify</strong>
             La pagina delle impostazioni ora chiede un secondo passo. Apri l'app di Spotify sul telefono o sul computer (il sito web non va bene), fai partire un brano qualsiasi, apri l'elenco dei dispositivi su cui suonare e scegli <strong>Spotify Authorization</strong>. Aspetta qualche secondo — a volte fino a mezzo minuto: la pagina di Lyrion si aggiorna da sola.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-spotty-auth.png" alt="Pagina del plugin Spotify con il pulsante verde Sign in with Spotify">
+          <figcaption>La pagina di Spotify: serve un abbonamento a pagamento, poi si preme il pulsante verde <em>Sign in with Spotify</em>.</figcaption>
+        </figure>
         <p>Poi la musica di Spotify si sceglie dall'apparecchio (la scheda App) o da Lyrion. L'apparecchio non compare come altoparlante nell'app di Spotify.</p>
 
         <h4>TIDAL</h4>
@@ -1321,6 +1372,10 @@
           <li><strong>Consenti l'accesso su TIDAL</strong>
             Apri il link, entra in TIDAL e consenti l'accesso. Torna alla pagina di Lyrion: si aggiorna da sola e mostra il tuo account. In <em>Qualità</em> scegli quanto deve essere buono il suono.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-tidal-auth.png" alt="Pagina TIDAL Authorization con il link per l'accesso">
+          <figcaption>La pagina di TIDAL: premi <em>Aggiungi Account</em>, poi apri il link che compare per entrare e consentire l'accesso.</figcaption>
+        </figure>
 
         <h4>Qobuz</h4>
         <ol class="steps">
@@ -1329,6 +1384,14 @@
           <li><strong>Scegli la qualità</strong>
             In <em>Preferred format</em> scegli la qualità migliore che il tuo abbonamento permette.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-qobuz-account.png" alt="Pagina account Qobuz con i campi nome utente e password">
+          <figcaption>La pagina di Qobuz: scrivi la tua e-mail (o nome utente) e la password, poi premi <em>Add</em>.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/screens/manual/svc-qobuz-quality.png" alt="Formato preferito di Qobuz impostato su FLAC 16 bit 44,1 kHz">
+          <figcaption>Più in basso nella stessa pagina: <em>Preferred format</em> imposta la qualità del suono.</figcaption>
+        </figure>
 
         <h4>Deezer</h4>
         <p>Deezer non chiede la password: vuole un codice, chiamato <strong>ARL</strong>, che il sito di Deezer conserva quando sei entrato. Su un computer, con Chrome o Edge:</p>
@@ -1340,6 +1403,10 @@
           <li><strong>Copialo in Lyrion</strong>
             Copia il valore lungo di quella riga, incollalo nella casella <em>ARL</em> della pagina di Deezer in Lyrion e premi <em>Add/Refresh</em>.</li>
         </ol>
+        <figure class="shot">
+          <img src="/screens/manual/svc-deezer-arl.png" alt="Pagina del plugin Deezer con il campo ARL e il pulsante Add/Refresh">
+          <figcaption>La pagina di Deezer: incolla il codice <code>arl</code> nella casella <em>ARL</em> e premi <em>Add/Refresh</em>. In <em>Quality</em> imposti la qualità del suono.</figcaption>
+        </figure>
         <p>Se un giorno Deezer smette di suonare, il codice è scaduto: ripeti questi passaggi.</p>
 
         <h3>3. Ascolta</h3>
