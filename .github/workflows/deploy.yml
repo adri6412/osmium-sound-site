@@ -4,7 +4,7 @@ name: Deploy website to Cloudflare Pages
 # one shot, so a file removed here disappears from the site too. What the site
 # serves:
 #   - the pages in this repo root (functions/ becomes the Pages Functions);
-#   - ota/ pulled from the public gh-pages branch of adri6412/osmium-sound, where
+#   - ota/ pulled from the public gh-pages branch of adri6412/osmium-sound-x86, where
 #     build-ui-ota.yml keeps writing the x86 update manifests.
 # 🚨 Devices read their update manifest from
 # osmium-sound.pages.dev/ota/latest-<channel>.json (api_server.py,
@@ -33,12 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Fetch the OTA manifests from osmium-sound gh-pages
+      - name: Fetch the OTA manifests from osmium-sound-x86 gh-pages
         run: |
           set -euo pipefail
-          # adri6412/osmium-sound is public: no token needed to read gh-pages.
+          # adri6412/osmium-sound-x86 is public: no token needed to read gh-pages.
           git clone --depth 1 --no-checkout --filter=blob:none \
-            --branch gh-pages https://github.com/adri6412/osmium-sound.git ghp
+            --branch gh-pages https://github.com/adri6412/osmium-sound-x86.git ghp
           git -C ghp sparse-checkout set --no-cone ota
           git -C ghp checkout
           test -d ghp/ota
