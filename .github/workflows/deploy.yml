@@ -1,0 +1,95 @@
+name: Deploy website to Cloudflare Pages
+
+# This repo owns osmiumsound.it. Cloudflare Pages deploys the whole snapshot in
+# one shot, so a file removed here disappears from the site too. What the site
+# serves:
+#   - the pages in this repo root (functions/ becomes the Pages Functions);
+#   - ota/ pulled from the public gh-pages branch of adri6412/osmium-sound, where
+#     build-ui-ota.yml keeps writing the x86 update manifests.
+# 🚨 Devices read their update manifest from
+# osmium-sound.pages.dev/ota/latest-<channel>.json (api_server.py,
+# OTA_MANIFEST_BASE), so the ota/ files must be in every deployment. After a
+# release writes ota/ to gh-pages, osmium-sound dispatches this workflow
+# (repository_dispatch: ota-updated).
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [ota-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment at a time, and never drop one: the last to finish wins, and it
+# must be the one carrying the newest manifest.
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Fetch the OTA manifests from osmium-sound gh-pages
+        run: |
+          set -euo pipefail
+          # adri6412/osmium-sound is public: no token needed to read gh-pages.
+          git clone --depth 1 --no-checkout --filter=blob:none \
+            --branch gh-pages https://github.com/adri6412/osmium-sound.git ghp
+          git -C ghp sparse-checkout set --no-cone ota
+          git -C ghp checkout
+          test -d ghp/ota
+
+      - name: Assemble the site
+        run: |
+          set -euo pipefail
+          mkdir site
+          # functions/ is code for Pages Functions, not a page to serve.
+          rsync -a \
+            --exclude '.git/' --exclude '.github/' --exclude 'functions/' \
+            --exclude 'ghp/' --exclude 'site/' \
+            ./ site/
+          if [ -e "site/ota" ]; then
+            echo "::error::an ota/ in the site would hide the OTA published on gh-pages"
+            exit 1
+          fi
+          cp -a ghp/ota site/ota
+          ls site/ota/latest-prod.json
+          echo "files: $(find site -type f | wc -l)"
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      # Run from the repo root so wrangler finds functions/ there; the project's
+      # D1 binding, secrets and custom domains stay as set in Cloudflare.
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: cef19f52032bee523a44c51d3e9d5777
+        run: |
+          set -euo pipefail
+          SHA=$(git rev-parse HEAD)
+          npx --yes wrangler@4 pages deploy site \
+            --project-name osmium-sound --branch main \
+            --commit-hash "$SHA" --commit-message "$(git log -1 --format=%s)" --commit-dirty=true
+
+      # The fleet's update check reads these: make sure the deployment serves
+      # exactly what gh-pages holds.
+      - name: Check the update manifests
+        run: |
+          set -euo pipefail
+          for f in ghp/ota/latest-*.json; do
+            name=$(basename "$f")
+            for i in 1 2 3 4 5 6; do
+              if curl -fsS "https://osmium-sound.pages.dev/ota/$name?v=$GITHUB_RUN_ID" | cmp -s - "$f"; then
+                echo "$name ok"; continue 2
+              fi
+              sleep 10
+            done
+            echo "::error::osmium-sound.pages.dev/ota/$name differs from gh-pages"
+            exit 1
+          done
