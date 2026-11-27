@@ -48,7 +48,10 @@ const DOWNLOAD_EXTENSIONS = /\.apk$/i;
 // Every powered-on box asks for it every fifteen minutes, so counting how many
 // different ones asked in a week is how many boxes are out there — without the
 // box having to say who it is, or remember anything.
-const OTA_MANIFEST = /^\/ota\/latest-[a-z0-9]+\.json$/i;
+// Two fleets check in: the x86 appliances read /ota/, the Raspberry ones
+// /ota-rpi/. The path stays in the counted key (file below), so the dashboard
+// can tell the two fleets apart without the box saying which it is.
+const OTA_MANIFEST = /^\/ota(-rpi)?\/latest-[a-z0-9]+\.json$/i;
 const APPLIANCE_UA = /^hifi-player-ota\b/i;
 
 // Static files that are neither a page nor a download

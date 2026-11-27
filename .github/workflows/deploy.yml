@@ -43,6 +43,26 @@ jobs:
           git -C ghp checkout
           test -d ghp/ota
 
+      - name: Fetch the Raspberry OTA manifests from osmium-sound-raspberry gh-pages
+        run: |
+          set -euo pipefail
+          # adri6412/osmium-sound-raspberry is public: no token needed. The Pi
+          # appliances read their manifest from osmium-sound.pages.dev/ota-rpi/,
+          # so the Pages deploy serves what build-rpi-image.yml writes to the
+          # ota-rpi/ folder of this repo's gh-pages. The folder appears only
+          # after the first Raspberry release that publishes it; until then this
+          # step finds nothing and leaves ota-rpi/ out of the deployment, rather
+          # than failing the whole site.
+          git clone --depth 1 --no-checkout --filter=blob:none \
+            --branch gh-pages https://github.com/adri6412/osmium-sound-raspberry.git ghp-rpi
+          git -C ghp-rpi sparse-checkout set --no-cone ota-rpi
+          git -C ghp-rpi checkout
+          if [ -d ghp-rpi/ota-rpi ]; then
+            echo "ota-rpi present: $(find ghp-rpi/ota-rpi -type f | wc -l) file(s)"
+          else
+            echo "::warning::no ota-rpi/ on osmium-sound-raspberry gh-pages yet; Pi manifests not deployed this run"
+          fi
+
       - name: Assemble the site
         run: |
           set -euo pipefail
@@ -50,7 +70,7 @@ jobs:
           # functions/ is code for Pages Functions, not a page to serve.
           rsync -a \
             --exclude '.git/' --exclude '.github/' --exclude 'functions/' \
-            --exclude 'ghp/' --exclude 'site/' \
+            --exclude 'ghp/' --exclude 'ghp-rpi/' --exclude 'site/' \
             ./ site/
           if [ -e "site/ota" ]; then
             echo "::error::an ota/ in the site would hide the OTA published on gh-pages"
@@ -58,6 +78,16 @@ jobs:
           fi
           cp -a ghp/ota site/ota
           ls site/ota/latest-prod.json
+          # The Raspberry manifests live under a separate path so they never
+          # collide with the x86 /ota/. Copied only when gh-pages carries them.
+          if [ -d ghp-rpi/ota-rpi ]; then
+            if [ -e "site/ota-rpi" ]; then
+              echo "::error::an ota-rpi/ in the site would hide the OTA published on gh-pages"
+              exit 1
+            fi
+            cp -a ghp-rpi/ota-rpi site/ota-rpi
+            ls site/ota-rpi/
+          fi
           echo "files: $(find site -type f | wc -l)"
 
       - uses: actions/setup-node@v6
@@ -93,3 +123,17 @@ jobs:
             echo "::error::osmium-sound.pages.dev/ota/$name differs from gh-pages"
             exit 1
           done
+          # Same check for the Raspberry fleet, when its manifests were deployed.
+          if [ -d ghp-rpi/ota-rpi ]; then
+            for f in ghp-rpi/ota-rpi/latest-*.json; do
+              name=$(basename "$f")
+              for i in 1 2 3 4 5 6; do
+                if curl -fsS "https://osmium-sound.pages.dev/ota-rpi/$name?v=$GITHUB_RUN_ID" | cmp -s - "$f"; then
+                  echo "ota-rpi/$name ok"; continue 2
+                fi
+                sleep 10
+              done
+              echo "::error::osmium-sound.pages.dev/ota-rpi/$name differs from gh-pages"
+              exit 1
+            done
+          fi
