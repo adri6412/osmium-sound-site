@@ -137,6 +137,10 @@
   .mode-block{ display:none; }
   .mode-block.show{ display:block; }
 
+  /* Platform (x86 vs Raspberry Pi) conditional blocks — same pattern as mode-block */
+  .plat-block{ display:none; }
+  .plat-block.show{ display:block; }
+
   .version-note{ font-size:11.5px; color:var(--muted); margin:-4px 0 14px; line-height:1.5; }
 
   #nav{ display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:10px; }
@@ -215,12 +219,27 @@
       <div class="view active" data-view="0">
         <div class="step-eyebrow">Prima di iniziare</div>
         <h2 class="step-title">Cosa ti serve</h2>
-        <p class="lead">Questo tutorial ti guida passo passo nell'installazione di Osmium Sound, dal download dell'immagine alla prima configurazione. Ecco cosa ti serve prima di partire:</p>
-        <div class="req-grid">
-          <div class="req-card"><div class="ico">🖥️</div><div><b>Mini PC x86 · 64 bit</b><span>Va bene sia con UEFI sia con BIOS tradizionale</span></div></div>
-          <div class="req-card"><div class="ico">💾</div><div><b>Chiavetta USB · min. 8 GB</b><span>Verrà cancellata durante la scrittura dell'immagine</span></div></div>
-          <div class="req-card"><div class="ico">🖐️</div><div><b>Uno schermo (facoltativo)</b><span>Monitor touchscreen, TV, oppure nessuno in modalità headless</span></div></div>
-          <div class="req-card"><div class="ico">📱</div><div><b>Un browser</b><span>Tablet, telefono o computer per la configurazione iniziale</span></div></div>
+        <p class="lead">Questo tutorial ti guida passo passo nell'installazione di Osmium Sound, dal download dell'immagine alla prima configurazione. Prima di tutto, su quale dispositivo lo installi?</p>
+        <div class="chip-row" id="platform-chips">
+          <div class="chip active" data-plat="x86">💻 Mini PC x86</div>
+          <div class="chip" data-plat="rpi">🍓 Raspberry Pi</div>
+        </div>
+        <p class="lead">Ecco cosa ti serve prima di partire:</p>
+        <div class="plat-block show" data-plat="x86">
+          <div class="req-grid">
+            <div class="req-card"><div class="ico">🖥️</div><div><b>Mini PC x86 · 64 bit</b><span>Va bene sia con UEFI sia con BIOS tradizionale</span></div></div>
+            <div class="req-card"><div class="ico">💾</div><div><b>Chiavetta USB · min. 8 GB</b><span>Verrà cancellata durante la scrittura dell'immagine</span></div></div>
+            <div class="req-card"><div class="ico">🖐️</div><div><b>Uno schermo (facoltativo)</b><span>Monitor touchscreen, TV, oppure nessuno in modalità headless</span></div></div>
+            <div class="req-card"><div class="ico">📱</div><div><b>Un browser</b><span>Tablet, telefono o computer per la configurazione iniziale</span></div></div>
+          </div>
+        </div>
+        <div class="plat-block" data-plat="rpi">
+          <div class="req-grid">
+            <div class="req-card"><div class="ico">🍓</div><div><b>Raspberry Pi 4 / 5 (o CM5)</b><span>Scheda a 64 bit, con bootloader aggiornato all'ultima versione</span></div></div>
+            <div class="req-card"><div class="ico">💾</div><div><b>microSD o SSD USB · min. 16 GB</b><span>Verrà cancellata durante la scrittura dell'immagine</span></div></div>
+            <div class="req-card"><div class="ico">🖐️</div><div><b>Uno schermo (facoltativo)</b><span>Collegato alla <b>seconda</b> porta HDMI per avere l'audio</span></div></div>
+            <div class="req-card"><div class="ico">📱</div><div><b>Un browser</b><span>Tablet, telefono o computer per la configurazione iniziale</span></div></div>
+          </div>
         </div>
         <p class="lead muted">Ci vogliono circa 15-20 minuti. Iniziamo.</p>
       </div>
@@ -228,28 +247,39 @@
       <div class="view" data-view="1">
         <div class="step-eyebrow">Passo 1</div>
         <h2 class="step-title">Scarica l'immagine</h2>
-        <p class="lead">Prima di tutto, come vuoi usare Osmium Sound?</p>
-        <div class="chip-row" id="install-mode-chips">
-          <div class="chip active" data-mode="disk">💿 Installarlo sul disco interno</div>
-          <div class="chip" data-mode="usb">🔌 Avviarlo direttamente dalla chiavetta</div>
-        </div>
 
-        <div class="mode-block show" id="mode-disk-block">
-          <p class="lead">Scarichi un <b>ISO</b>, lo scrivi su una chiavetta USB (passo successivo) e la usi solo per avviare il programma di installazione, che copia il sistema sul disco interno del mini PC.</p>
-          <div class="chip-row" id="disk-version-chips">
-            <div class="chip active" data-ver="stable">Versione stabile · v2.5.26</div>
-            <div class="chip" data-ver="dev">Versione di sviluppo · v2.5.26-dev.6</div>
+        <div class="plat-block show" data-plat="x86">
+          <p class="lead">Prima di tutto, come vuoi usare Osmium Sound?</p>
+          <div class="chip-row" id="install-mode-chips">
+            <div class="chip active" data-mode="disk">💿 Installarlo sul disco interno</div>
+            <div class="chip" data-mode="usb">🔌 Avviarlo direttamente dalla chiavetta</div>
           </div>
-          <div id="disk-version-links"></div>
-          <div class="version-note" id="disk-version-note"></div>
+
+          <div class="mode-block show" id="mode-disk-block">
+            <p class="lead">Scarichi un <b>ISO</b>, lo scrivi su una chiavetta USB (passo successivo) e la usi solo per avviare il programma di installazione, che copia il sistema sul disco interno del mini PC.</p>
+            <div class="chip-row" id="disk-version-chips">
+              <div class="chip active" data-ver="stable">Versione stabile · v2.5.26</div>
+              <div class="chip" data-ver="dev">Versione di sviluppo · v2.5.26-dev.6</div>
+            </div>
+            <div id="disk-version-links"></div>
+            <div class="version-note" id="disk-version-note"></div>
+          </div>
+
+          <div class="mode-block" id="mode-usb-block">
+            <p class="lead">Scarichi un'immagine <b>già pronta all'uso (<span class="mono">.img.xz</span>)</b>, la scrivi sulla chiavetta e il mini PC si avvia <b>direttamente da lì</b>: niente installazione, niente disco interno toccato. Lascia la chiavetta sempre inserita: è lì che vive il sistema.</p>
+            <a class="dl-btn" href="https://file.osmiumsound.it/hifi-player-v2.5.26-dev.6.img.xz" target="_blank" rel="noopener">
+              <span class="ico">⬇️</span><span>hifi-player-v2.5.26-dev.6.img.xz<small>Immagine per avvio diretto da USB</small></span>
+            </a>
+            <div class="version-note">⚠️ Questa modalità è disponibile per ora solo nella versione di sviluppo (dev) v2.5.26-dev.6: può contenere novità non ancora rifinite.</div>
+          </div>
         </div>
 
-        <div class="mode-block" id="mode-usb-block">
-          <p class="lead">Scarichi un'immagine <b>già pronta all'uso (<span class="mono">.img.xz</span>)</b>, la scrivi sulla chiavetta e il mini PC si avvia <b>direttamente da lì</b>: niente installazione, niente disco interno toccato. Lascia la chiavetta sempre inserita: è lì che vive il sistema.</p>
-          <a class="dl-btn" href="https://file.osmiumsound.it/hifi-player-v2.5.26-dev.6.img.xz" target="_blank" rel="noopener">
-            <span class="ico">⬇️</span><span>hifi-player-v2.5.26-dev.6.img.xz<small>Immagine per avvio diretto da USB</small></span>
+        <div class="plat-block" data-plat="rpi">
+          <p class="lead">Per Raspberry Pi c'è un'unica immagine <b>già pronta all'uso (<span class="mono">.img.xz</span>)</b> da scrivere sulla microSD (o su un SSD USB): niente installer, il sistema parte direttamente dalla scheda.</p>
+          <a class="dl-btn" href="https://github.com/adri6412/osmium-sound-raspberry/releases/download/2.5.27/osmium-rpi-2.5.27.img.xz" target="_blank" rel="noopener">
+            <span class="ico">⬇️</span><span>osmium-rpi-2.5.27.img.xz<small>Immagine Raspberry Pi pronta all'uso</small></span>
           </a>
-          <div class="version-note">⚠️ Questa modalità è disponibile per ora solo nella versione di sviluppo (dev) v2.5.26-dev.6: può contenere novità non ancora rifinite.</div>
+          <div class="info-box">🔧 <b>Prima di scrivere l'immagine</b> aggiorna il bootloader del Raspberry Pi all'ultima versione: lo vediamo al passo successivo. È il requisito più importante per far partire la scheda.</div>
         </div>
 
         <div class="info-box">Non trovi la tua versione o vuoi controllare se ne è uscita una più recente? Dai un'occhiata alla sezione download di <b>osmiumsound.it</b> o alla pagina delle <b>release su GitHub</b> del progetto.</div>
@@ -257,65 +287,107 @@
 
       <div class="view" data-view="2">
         <div class="step-eyebrow">Passo 2</div>
-        <h2 class="step-title">Scrivi l'immagine sulla chiavetta</h2>
-        <p class="lead">Da che sistema stai scrivendo l'immagine? Ti mostro lo strumento più comodo.</p>
-        <div class="chip-row" id="os-chips">
-          <div class="chip active" data-os="windows">Windows</div>
-          <div class="chip" data-os="mac">macOS</div>
-          <div class="chip" data-os="linux">Linux</div>
+        <h2 class="step-title">Scrivi l'immagine</h2>
+
+        <div class="plat-block show" data-plat="x86">
+          <p class="lead">Da che sistema stai scrivendo l'immagine? Ti mostro lo strumento più comodo.</p>
+          <div class="chip-row" id="os-chips">
+            <div class="chip active" data-os="windows">Windows</div>
+            <div class="chip" data-os="mac">macOS</div>
+            <div class="chip" data-os="linux">Linux</div>
+          </div>
+          <div class="chip-tip" id="os-tip"></div>
+          <div id="os-dl"></div>
+          <ul class="steps-list">
+            <li><b>Osmium Flasher</b> (consigliato dove disponibile): scarica l'immagine, ne verifica la firma e scrive la chiavetta da solo. Non mostra mai il disco di sistema, per evitare di cancellarlo per errore.</li>
+            <li>In alternativa vanno bene anche <b>balenaEtcher</b>, <b>Rufus</b> o il comando <span class="mono">dd</span> — tutti scrivono sia file <span class="mono">.iso</span> sia <span class="mono">.img.xz</span> sulla chiavetta.</li>
+          </ul>
+          <div class="warn-box">⚠️ La chiavetta verrà formattata: tutto il suo contenuto andrà perso. Usane una senza dati importanti.</div>
         </div>
-        <div class="chip-tip" id="os-tip"></div>
-        <div id="os-dl"></div>
-        <ul class="steps-list">
-          <li><b>Osmium Flasher</b> (consigliato dove disponibile): scarica l'immagine, ne verifica la firma e scrive la chiavetta da solo. Non mostra mai il disco di sistema, per evitare di cancellarlo per errore.</li>
-          <li>In alternativa vanno bene anche <b>balenaEtcher</b>, <b>Rufus</b> o il comando <span class="mono">dd</span> — tutti scrivono sia file <span class="mono">.iso</span> sia <span class="mono">.img.xz</span> sulla chiavetta.</li>
-        </ul>
-        <div class="warn-box">⚠️ La chiavetta verrà formattata: tutto il suo contenuto andrà perso. Usane una senza dati importanti.</div>
+
+        <div class="plat-block" data-plat="rpi">
+          <p class="lead"><b>1. Aggiorna il bootloader del Raspberry Pi all'ultima versione.</b> È il passo più importante: un bootloader vecchio può impedire l'avvio dalla scheda.</p>
+          <ul class="steps-list">
+            <li>In <b>Raspberry Pi Imager</b>: scegli il tuo modello, poi «Sistema operativo» → <b>«Misc utility images» → «Bootloader»</b> (avvio da <b>SD/USB</b>); scrivilo su una scheda, inseriscila nel Raspberry e accendilo una volta: aggiorna la EEPROM da solo e si spegne.</li>
+            <li>In alternativa, da un Raspberry già con Pi OS: <span class="mono">sudo rpi-eeprom-update -a</span> e riavvia.</li>
+          </ul>
+          <p class="lead"><b>2. Scrivi l'immagine di Osmium Sound</b> sulla microSD (o sull'SSD USB):</p>
+          <ul class="steps-list">
+            <li>In <b>Raspberry Pi Imager</b>: «Sistema operativo» → <b>«Usa immagine personalizzata»</b>, seleziona il file <span class="mono">osmium-rpi-2.5.27.img.xz</span> scaricato e scrivi.</li>
+            <li>In alternativa vanno bene anche <b>balenaEtcher</b> o il comando <span class="mono">dd</span>.</li>
+          </ul>
+          <div class="warn-box">⚠️ La scheda verrà formattata: tutto il suo contenuto andrà perso. Usane una senza dati importanti.</div>
+        </div>
       </div>
 
       <div class="view" data-view="3">
         <div class="step-eyebrow">Passo 3</div>
-        <h2 class="step-title">Avvia il mini PC dalla chiavetta</h2>
-        <ol class="steps-list">
-          <li>Inserisci la chiavetta nel mini PC e accendilo.</li>
-          <li>Premi il tasto per il <b>menu di avvio</b> (boot menu) — di solito <span class="mono">F11</span>, <span class="mono">F12</span> oppure <span class="mono">Esc</span> — e scegli la chiavetta USB.</li>
-          <li>Se la chiavetta compare due volte nel menu, scegli quella che inizia con <span class="mono">UEFI:</span></li>
-        </ol>
-        <div class="mode-block show" data-modeblock="disk">
-          <ol class="steps-list" start="4">
-            <li>Seleziona <b>«Install Osmium Sound»</b>. Se vuoi solo provarlo senza installarlo, scegli <b>«Try Osmium Sound (no install)»</b>.</li>
+        <div class="plat-block show" data-plat="x86">
+          <h2 class="step-title">Avvia il mini PC dalla chiavetta</h2>
+          <ol class="steps-list">
+            <li>Inserisci la chiavetta nel mini PC e accendilo.</li>
+            <li>Premi il tasto per il <b>menu di avvio</b> (boot menu) — di solito <span class="mono">F11</span>, <span class="mono">F12</span> oppure <span class="mono">Esc</span> — e scegli la chiavetta USB.</li>
+            <li>Se la chiavetta compare due volte nel menu, scegli quella che inizia con <span class="mono">UEFI:</span></li>
           </ol>
+          <div class="mode-block show" data-modeblock="disk">
+            <ol class="steps-list" start="4">
+              <li>Seleziona <b>«Install Osmium Sound»</b>. Se vuoi solo provarlo senza installarlo, scegli <b>«Try Osmium Sound (no install)»</b>.</li>
+            </ol>
+          </div>
+          <div class="mode-block" data-modeblock="usb">
+            <ol class="steps-list" start="4">
+              <li>Non vedrai un vero e proprio installer: con l'immagine <span class="mono">.img.xz</span> il mini PC si avvia già nel sistema pronto all'uso, direttamente dalla chiavetta.</li>
+            </ol>
+          </div>
+          <div class="info-box"><b>Secure Boot:</b> può restare attivo, di solito non dà problemi. Se il mini PC proprio non si avvia dalla chiavetta, entra nel firmware (di solito <span class="mono">F2</span>, <span class="mono">Canc</span> o <span class="mono">Esc</span> all'accensione), disattiva Secure Boot e riprova.</div>
         </div>
-        <div class="mode-block" data-modeblock="usb">
-          <ol class="steps-list" start="4">
-            <li>Non vedrai un vero e proprio installer: con l'immagine <span class="mono">.img.xz</span> il mini PC si avvia già nel sistema pronto all'uso, direttamente dalla chiavetta.</li>
+
+        <div class="plat-block" data-plat="rpi">
+          <h2 class="step-title">Collega lo schermo e accendi</h2>
+          <ol class="steps-list">
+            <li>Inserisci la microSD (o collega l'SSD USB) nel Raspberry Pi.</li>
+            <li><b>Collega lo schermo (o la TV) alla seconda porta HDMI</b> — quella più lontana dal connettore di alimentazione USB-C. Su Osmium l'audio HDMI esce da <b>quella</b> porta: usando la prima avresti video ma niente audio.</li>
+            <li>Accendi il Raspberry: parte da solo dalla scheda, senza menu di avvio né installer.</li>
           </ol>
+          <div class="info-box">🔊 <b>Audio HDMI:</b> su Raspberry Pi l'uscita audio via HDMI è disponibile solo sulla <b>seconda</b> porta (la più lontana dall'alimentazione). Se invece usi un DAC USB o un HAT I2S puoi collegare lo schermo dove preferisci.</div>
         </div>
-        <div class="info-box"><b>Secure Boot:</b> può restare attivo, di solito non dà problemi. Se il mini PC proprio non si avvia dalla chiavetta, entra nel firmware (di solito <span class="mono">F2</span>, <span class="mono">Canc</span> o <span class="mono">Esc</span> all'accensione), disattiva Secure Boot e riprova.</div>
       </div>
 
       <div class="view" data-view="4">
         <div class="step-eyebrow">Passo 4</div>
-        <h2 class="step-title" data-modetitle>Installazione guidata</h2>
+        <div class="plat-block show" data-plat="x86">
+          <h2 class="step-title" data-modetitle>Installazione guidata</h2>
 
-        <div class="mode-block show" data-modeblock="disk">
-          <ol class="steps-list">
-            <li>Nella schermata di benvenuto tocca <b>«Choose disk»</b> e scegli il disco su cui installare.</li>
-            <li>Conferma l'avviso: <b>tutti i dati su quel disco verranno cancellati.</b></li>
-            <li>Tocca <b>«Erase and install»</b> e attendi: non serve una connessione a internet.</li>
-            <li>Il dispositivo si riavvia da solo a fine installazione. <b>Rimuovi la chiavetta</b> dopo il riavvio.</li>
-          </ol>
-          <div class="info-box">📱 <b>Installare da telefono:</b> in alto a destra compare un QR code. Se non hai un cavo di rete collegato, il mini PC crea una rete Wi-Fi chiamata <span class="mono">Osmium-Setup-XXXX</span> (senza password): connettiti e si aprirà la pagina di installazione. Se non si apre da sola, vai su <span class="mono">http://10.42.0.1</span>.</div>
+          <div class="mode-block show" data-modeblock="disk">
+            <ol class="steps-list">
+              <li>Nella schermata di benvenuto tocca <b>«Choose disk»</b> e scegli il disco su cui installare.</li>
+              <li>Conferma l'avviso: <b>tutti i dati su quel disco verranno cancellati.</b></li>
+              <li>Tocca <b>«Erase and install»</b> e attendi: non serve una connessione a internet.</li>
+              <li>Il dispositivo si riavvia da solo a fine installazione. <b>Rimuovi la chiavetta</b> dopo il riavvio.</li>
+            </ol>
+            <div class="info-box">📱 <b>Installare da telefono:</b> in alto a destra compare un QR code. Se non hai un cavo di rete collegato, il mini PC crea una rete Wi-Fi chiamata <span class="mono">Osmium-Setup-XXXX</span> (senza password): connettiti e si aprirà la pagina di installazione. Se non si apre da sola, vai su <span class="mono">http://10.42.0.1</span>.</div>
+          </div>
+
+          <div class="mode-block" data-modeblock="usb">
+            <p class="lead">Con l'avvio diretto da chiavetta non c'è nulla da installare: il disco interno del mini PC non viene toccato.</p>
+            <ul class="steps-list">
+              <li>Il sistema parte già pronto direttamente dalla chiavetta.</li>
+              <li><b>Lascia la chiavetta sempre inserita:</b> è lì che vive il sistema, non nel disco interno.</li>
+              <li>Procedi pure al passo successivo per il primo avvio e la configurazione di rete.</li>
+            </ul>
+            <div class="info-box">💡 Comodo per provare Osmium Sound senza modificare il mini PC, o per portarlo con te da una macchina all'altra.</div>
+          </div>
         </div>
 
-        <div class="mode-block" data-modeblock="usb">
-          <p class="lead">Con l'avvio diretto da chiavetta non c'è nulla da installare: il disco interno del mini PC non viene toccato.</p>
+        <div class="plat-block" data-plat="rpi">
+          <h2 class="step-title">Niente da installare</h2>
+          <p class="lead">Su Raspberry Pi non c'è un installer: il sistema parte già pronto direttamente dalla scheda.</p>
           <ul class="steps-list">
-            <li>Il sistema parte già pronto direttamente dalla chiavetta.</li>
-            <li><b>Lascia la chiavetta sempre inserita:</b> è lì che vive il sistema, non nel disco interno.</li>
+            <li>Al primo avvio il Raspberry prepara il sistema e si riavvia una volta: è normale.</li>
+            <li><b>Lascia la scheda sempre inserita:</b> è lì che vive il sistema.</li>
             <li>Procedi pure al passo successivo per il primo avvio e la configurazione di rete.</li>
           </ul>
-          <div class="info-box">💡 Comodo per provare Osmium Sound senza modificare il mini PC, o per portarlo con te da una macchina all'altra.</div>
+          <div class="info-box">💡 Se hai collegato lo schermo alla seconda porta HDMI, al primo avvio vedrai comparire il player; altrimenti prosegui comunque dal browser.</div>
         </div>
       </div>
 
@@ -390,7 +462,8 @@
         <div class="step-eyebrow">Fatto</div>
         <div class="done-badge">🎧</div>
         <h2 class="step-title" style="text-align:center;">Osmium Sound è pronto</h2>
-        <p class="lead" style="text-align:center;">Mini PC, chiavetta, uno schermo o il telecomando, e un browser per configurarlo: è tutto quello che serviva. Buon ascolto.</p>
+        <p class="lead plat-block show" data-plat="x86" style="text-align:center;">Mini PC, chiavetta, uno schermo o il telecomando, e un browser per configurarlo: è tutto quello che serviva. Buon ascolto.</p>
+        <p class="lead plat-block" data-plat="rpi" style="text-align:center;">Raspberry Pi, una microSD, uno schermo o il telecomando, e un browser per configurarlo: è tutto quello che serviva. Buon ascolto.</p>
         <div style="text-align:center;">
           <div class="url-pill">🌐 Guida completa su <a href="https://osmiumsound.it/manual" target="_blank" rel="noopener">osmiumsound.it/manual</a></div>
         </div>
@@ -422,12 +495,27 @@
       <div class="view active" data-view="0">
         <div class="step-eyebrow">Before you start</div>
         <h2 class="step-title">What you'll need</h2>
-        <p class="lead">This tutorial walks you through installing Osmium Sound, from downloading the image to the first setup. Here's what you need before you start:</p>
-        <div class="req-grid">
-          <div class="req-card"><div class="ico">🖥️</div><div><b>x86 mini PC · 64-bit</b><span>Works with either UEFI or a traditional BIOS</span></div></div>
-          <div class="req-card"><div class="ico">💾</div><div><b>USB drive · min. 8 GB</b><span>Will be erased while writing the image</span></div></div>
-          <div class="req-card"><div class="ico">🖐️</div><div><b>A screen (optional)</b><span>Touchscreen monitor, TV, or none in headless mode</span></div></div>
-          <div class="req-card"><div class="ico">📱</div><div><b>A browser</b><span>Tablet, phone or computer for the first-time setup</span></div></div>
+        <p class="lead">This tutorial walks you through installing Osmium Sound, from downloading the image to the first setup. First off, which device are you installing it on?</p>
+        <div class="chip-row" id="platform-chips">
+          <div class="chip active" data-plat="x86">💻 x86 mini PC</div>
+          <div class="chip" data-plat="rpi">🍓 Raspberry Pi</div>
+        </div>
+        <p class="lead">Here's what you need before you start:</p>
+        <div class="plat-block show" data-plat="x86">
+          <div class="req-grid">
+            <div class="req-card"><div class="ico">🖥️</div><div><b>x86 mini PC · 64-bit</b><span>Works with either UEFI or a traditional BIOS</span></div></div>
+            <div class="req-card"><div class="ico">💾</div><div><b>USB drive · min. 8 GB</b><span>Will be erased while writing the image</span></div></div>
+            <div class="req-card"><div class="ico">🖐️</div><div><b>A screen (optional)</b><span>Touchscreen monitor, TV, or none in headless mode</span></div></div>
+            <div class="req-card"><div class="ico">📱</div><div><b>A browser</b><span>Tablet, phone or computer for the first-time setup</span></div></div>
+          </div>
+        </div>
+        <div class="plat-block" data-plat="rpi">
+          <div class="req-grid">
+            <div class="req-card"><div class="ico">🍓</div><div><b>Raspberry Pi 4 / 5 (or CM5)</b><span>64-bit board, with the bootloader updated to the latest version</span></div></div>
+            <div class="req-card"><div class="ico">💾</div><div><b>microSD or USB SSD · min. 16 GB</b><span>Will be erased while writing the image</span></div></div>
+            <div class="req-card"><div class="ico">🖐️</div><div><b>A screen (optional)</b><span>Plugged into the <b>second</b> HDMI port to get audio</span></div></div>
+            <div class="req-card"><div class="ico">📱</div><div><b>A browser</b><span>Tablet, phone or computer for the first-time setup</span></div></div>
+          </div>
         </div>
         <p class="lead muted">It takes about 15-20 minutes. Let's get started.</p>
       </div>
@@ -435,28 +523,39 @@
       <div class="view" data-view="1">
         <div class="step-eyebrow">Step 1</div>
         <h2 class="step-title">Download the image</h2>
-        <p class="lead">First off, how do you want to use Osmium Sound?</p>
-        <div class="chip-row" id="install-mode-chips">
-          <div class="chip active" data-mode="disk">💿 Install it on the internal disk</div>
-          <div class="chip" data-mode="usb">🔌 Boot it directly from the USB drive</div>
-        </div>
 
-        <div class="mode-block show" id="mode-disk-block">
-          <p class="lead">You download an <b>ISO</b>, write it to a USB drive (next step), and use it only to run the installer, which copies the system onto the mini PC's internal disk.</p>
-          <div class="chip-row" id="disk-version-chips">
-            <div class="chip active" data-ver="stable">Stable release · v2.5.26</div>
-            <div class="chip" data-ver="dev">Development build · v2.5.26-dev.6</div>
+        <div class="plat-block show" data-plat="x86">
+          <p class="lead">First off, how do you want to use Osmium Sound?</p>
+          <div class="chip-row" id="install-mode-chips">
+            <div class="chip active" data-mode="disk">💿 Install it on the internal disk</div>
+            <div class="chip" data-mode="usb">🔌 Boot it directly from the USB drive</div>
           </div>
-          <div id="disk-version-links"></div>
-          <div class="version-note" id="disk-version-note"></div>
+
+          <div class="mode-block show" id="mode-disk-block">
+            <p class="lead">You download an <b>ISO</b>, write it to a USB drive (next step), and use it only to run the installer, which copies the system onto the mini PC's internal disk.</p>
+            <div class="chip-row" id="disk-version-chips">
+              <div class="chip active" data-ver="stable">Stable release · v2.5.26</div>
+              <div class="chip" data-ver="dev">Development build · v2.5.26-dev.6</div>
+            </div>
+            <div id="disk-version-links"></div>
+            <div class="version-note" id="disk-version-note"></div>
+          </div>
+
+          <div class="mode-block" id="mode-usb-block">
+            <p class="lead">You download a <b>ready-to-run image (<span class="mono">.img.xz</span>)</b>, write it to the USB drive, and the mini PC boots <b>directly from it</b>: no install step, no changes to the internal disk. Leave the drive plugged in at all times — that's where the system lives.</p>
+            <a class="dl-btn" href="https://file.osmiumsound.it/hifi-player-v2.5.26-dev.6.img.xz" target="_blank" rel="noopener">
+              <span class="ico">⬇️</span><span>hifi-player-v2.5.26-dev.6.img.xz<small>Image for direct USB boot</small></span>
+            </a>
+            <div class="version-note">⚠️ This mode is currently only available in the development build (dev) v2.5.26-dev.6: it may include unfinished changes.</div>
+          </div>
         </div>
 
-        <div class="mode-block" id="mode-usb-block">
-          <p class="lead">You download a <b>ready-to-run image (<span class="mono">.img.xz</span>)</b>, write it to the USB drive, and the mini PC boots <b>directly from it</b>: no install step, no changes to the internal disk. Leave the drive plugged in at all times — that's where the system lives.</p>
-          <a class="dl-btn" href="https://file.osmiumsound.it/hifi-player-v2.5.26-dev.6.img.xz" target="_blank" rel="noopener">
-            <span class="ico">⬇️</span><span>hifi-player-v2.5.26-dev.6.img.xz<small>Image for direct USB boot</small></span>
+        <div class="plat-block" data-plat="rpi">
+          <p class="lead">For Raspberry Pi there's a single <b>ready-to-run image (<span class="mono">.img.xz</span>)</b> to write to the microSD card (or a USB SSD): no installer, the system boots straight from the card.</p>
+          <a class="dl-btn" href="https://github.com/adri6412/osmium-sound-raspberry/releases/download/2.5.27/osmium-rpi-2.5.27.img.xz" target="_blank" rel="noopener">
+            <span class="ico">⬇️</span><span>osmium-rpi-2.5.27.img.xz<small>Ready-to-run Raspberry Pi image</small></span>
           </a>
-          <div class="version-note">⚠️ This mode is currently only available in the development build (dev) v2.5.26-dev.6: it may include unfinished changes.</div>
+          <div class="info-box">🔧 <b>Before you write the image</b>, update the Raspberry Pi bootloader to the latest version — we do that in the next step. It's the most important requirement for the card to boot.</div>
         </div>
 
         <div class="info-box">Can't find your version, or want to check for a newer one? Check the download section on <b>osmiumsound.it</b> or the project's <b>GitHub releases</b> page.</div>
@@ -464,65 +563,107 @@
 
       <div class="view" data-view="2">
         <div class="step-eyebrow">Step 2</div>
-        <h2 class="step-title">Write the image to the USB drive</h2>
-        <p class="lead">Which system are you writing the image from? Here's the easiest tool for it.</p>
-        <div class="chip-row" id="os-chips">
-          <div class="chip active" data-os="windows">Windows</div>
-          <div class="chip" data-os="mac">macOS</div>
-          <div class="chip" data-os="linux">Linux</div>
+        <h2 class="step-title">Write the image</h2>
+
+        <div class="plat-block show" data-plat="x86">
+          <p class="lead">Which system are you writing the image from? Here's the easiest tool for it.</p>
+          <div class="chip-row" id="os-chips">
+            <div class="chip active" data-os="windows">Windows</div>
+            <div class="chip" data-os="mac">macOS</div>
+            <div class="chip" data-os="linux">Linux</div>
+          </div>
+          <div class="chip-tip" id="os-tip"></div>
+          <div id="os-dl"></div>
+          <ul class="steps-list">
+            <li><b>Osmium Flasher</b> (recommended where available): downloads the image, verifies its signature, and writes the drive on its own. It never shows your system disk, so you can't accidentally erase it.</li>
+            <li><b>balenaEtcher</b>, <b>Rufus</b>, or the <span class="mono">dd</span> command also work — all of them can write both <span class="mono">.iso</span> and <span class="mono">.img.xz</span> files to the drive.</li>
+          </ul>
+          <div class="warn-box">⚠️ The USB drive will be formatted: everything on it will be lost. Use one with nothing important on it.</div>
         </div>
-        <div class="chip-tip" id="os-tip"></div>
-        <div id="os-dl"></div>
-        <ul class="steps-list">
-          <li><b>Osmium Flasher</b> (recommended where available): downloads the image, verifies its signature, and writes the drive on its own. It never shows your system disk, so you can't accidentally erase it.</li>
-          <li><b>balenaEtcher</b>, <b>Rufus</b>, or the <span class="mono">dd</span> command also work — all of them can write both <span class="mono">.iso</span> and <span class="mono">.img.xz</span> files to the drive.</li>
-        </ul>
-        <div class="warn-box">⚠️ The USB drive will be formatted: everything on it will be lost. Use one with nothing important on it.</div>
+
+        <div class="plat-block" data-plat="rpi">
+          <p class="lead"><b>1. Update the Raspberry Pi bootloader to the latest version.</b> This is the most important step: an old bootloader can keep the board from booting off the card.</p>
+          <ul class="steps-list">
+            <li>In <b>Raspberry Pi Imager</b>: pick your model, then «Operating System» → <b>«Misc utility images» → «Bootloader»</b> (boot from <b>SD/USB</b>); write it to a card, put it in the Pi and power it on once: it updates the EEPROM on its own and powers off.</li>
+            <li>Alternatively, from a Pi already running Pi OS: <span class="mono">sudo rpi-eeprom-update -a</span> and reboot.</li>
+          </ul>
+          <p class="lead"><b>2. Write the Osmium Sound image</b> to the microSD card (or USB SSD):</p>
+          <ul class="steps-list">
+            <li>In <b>Raspberry Pi Imager</b>: «Operating System» → <b>«Use custom»</b>, pick the <span class="mono">osmium-rpi-2.5.27.img.xz</span> file you downloaded, and write.</li>
+            <li><b>balenaEtcher</b> or the <span class="mono">dd</span> command also work.</li>
+          </ul>
+          <div class="warn-box">⚠️ The card will be formatted: everything on it will be lost. Use one with nothing important on it.</div>
+        </div>
       </div>
 
       <div class="view" data-view="3">
         <div class="step-eyebrow">Step 3</div>
-        <h2 class="step-title">Boot the mini PC from the USB drive</h2>
-        <ol class="steps-list">
-          <li>Plug the drive into the mini PC and power it on.</li>
-          <li>Press the key for the <b>boot menu</b> — usually <span class="mono">F11</span>, <span class="mono">F12</span> or <span class="mono">Esc</span> — and pick the USB drive.</li>
-          <li>If the drive shows up twice in the menu, choose the entry that starts with <span class="mono">UEFI:</span></li>
-        </ol>
-        <div class="mode-block show" data-modeblock="disk">
-          <ol class="steps-list" start="4">
-            <li>Select <b>«Install Osmium Sound»</b>. To just try it without installing, choose <b>«Try Osmium Sound (no install)»</b> instead.</li>
+        <div class="plat-block show" data-plat="x86">
+          <h2 class="step-title">Boot the mini PC from the USB drive</h2>
+          <ol class="steps-list">
+            <li>Plug the drive into the mini PC and power it on.</li>
+            <li>Press the key for the <b>boot menu</b> — usually <span class="mono">F11</span>, <span class="mono">F12</span> or <span class="mono">Esc</span> — and pick the USB drive.</li>
+            <li>If the drive shows up twice in the menu, choose the entry that starts with <span class="mono">UEFI:</span></li>
           </ol>
+          <div class="mode-block show" data-modeblock="disk">
+            <ol class="steps-list" start="4">
+              <li>Select <b>«Install Osmium Sound»</b>. To just try it without installing, choose <b>«Try Osmium Sound (no install)»</b> instead.</li>
+            </ol>
+          </div>
+          <div class="mode-block" data-modeblock="usb">
+            <ol class="steps-list" start="4">
+              <li>You won't see a real installer: with the <span class="mono">.img.xz</span> image, the mini PC boots straight into the ready-to-use system, directly from the drive.</li>
+            </ol>
+          </div>
+          <div class="info-box"><b>Secure Boot:</b> can stay on, it usually isn't a problem. If the mini PC really won't boot from the drive, open the firmware setup (usually <span class="mono">F2</span>, <span class="mono">Del</span> or <span class="mono">Esc</span> at power-on), disable Secure Boot, and try again.</div>
         </div>
-        <div class="mode-block" data-modeblock="usb">
-          <ol class="steps-list" start="4">
-            <li>You won't see a real installer: with the <span class="mono">.img.xz</span> image, the mini PC boots straight into the ready-to-use system, directly from the drive.</li>
+
+        <div class="plat-block" data-plat="rpi">
+          <h2 class="step-title">Plug in the screen and power on</h2>
+          <ol class="steps-list">
+            <li>Insert the microSD card (or plug in the USB SSD) into the Raspberry Pi.</li>
+            <li><b>Connect the screen (or TV) to the second HDMI port</b> — the one farther from the USB-C power connector. On Osmium, HDMI audio comes out of <b>that</b> port: using the first one gives you video but no sound.</li>
+            <li>Power the Pi on: it boots on its own from the card, with no boot menu and no installer.</li>
           </ol>
+          <div class="info-box">🔊 <b>HDMI audio:</b> on Raspberry Pi, HDMI audio output is only available on the <b>second</b> port (the one farther from power). If you use a USB DAC or an I2S HAT instead, you can plug the screen in wherever you like.</div>
         </div>
-        <div class="info-box"><b>Secure Boot:</b> can stay on, it usually isn't a problem. If the mini PC really won't boot from the drive, open the firmware setup (usually <span class="mono">F2</span>, <span class="mono">Del</span> or <span class="mono">Esc</span> at power-on), disable Secure Boot, and try again.</div>
       </div>
 
       <div class="view" data-view="4">
         <div class="step-eyebrow">Step 4</div>
-        <h2 class="step-title" data-modetitle>Guided installer</h2>
+        <div class="plat-block show" data-plat="x86">
+          <h2 class="step-title" data-modetitle>Guided installer</h2>
 
-        <div class="mode-block show" data-modeblock="disk">
-          <ol class="steps-list">
-            <li>On the welcome screen, tap <b>«Choose disk»</b> and pick the disk to install on.</li>
-            <li>Confirm the warning: <b>all data on that disk will be erased.</b></li>
-            <li>Tap <b>«Erase and install»</b> and wait: no internet connection is needed.</li>
-            <li>The device reboots on its own once installation is done. <b>Remove the USB drive</b> after the restart.</li>
-          </ol>
-          <div class="info-box">📱 <b>Installing from a phone:</b> a QR code appears in the top-right corner. Without a network cable plugged in, the mini PC creates a Wi-Fi network called <span class="mono">Osmium-Setup-XXXX</span> (no password): connect to it and the install page should open. If it doesn't open on its own, go to <span class="mono">http://10.42.0.1</span>.</div>
+          <div class="mode-block show" data-modeblock="disk">
+            <ol class="steps-list">
+              <li>On the welcome screen, tap <b>«Choose disk»</b> and pick the disk to install on.</li>
+              <li>Confirm the warning: <b>all data on that disk will be erased.</b></li>
+              <li>Tap <b>«Erase and install»</b> and wait: no internet connection is needed.</li>
+              <li>The device reboots on its own once installation is done. <b>Remove the USB drive</b> after the restart.</li>
+            </ol>
+            <div class="info-box">📱 <b>Installing from a phone:</b> a QR code appears in the top-right corner. Without a network cable plugged in, the mini PC creates a Wi-Fi network called <span class="mono">Osmium-Setup-XXXX</span> (no password): connect to it and the install page should open. If it doesn't open on its own, go to <span class="mono">http://10.42.0.1</span>.</div>
+          </div>
+
+          <div class="mode-block" data-modeblock="usb">
+            <p class="lead">With a direct USB boot there's nothing to install: the mini PC's internal disk is never touched.</p>
+            <ul class="steps-list">
+              <li>The system starts up already ready to go, directly from the drive.</li>
+              <li><b>Leave the drive plugged in at all times:</b> that's where the system lives, not on the internal disk.</li>
+              <li>Go ahead to the next step for the first boot and network setup.</li>
+            </ul>
+            <div class="info-box">💡 Handy for trying Osmium Sound without touching the mini PC, or for taking it with you from one machine to another.</div>
+          </div>
         </div>
 
-        <div class="mode-block" data-modeblock="usb">
-          <p class="lead">With a direct USB boot there's nothing to install: the mini PC's internal disk is never touched.</p>
+        <div class="plat-block" data-plat="rpi">
+          <h2 class="step-title">Nothing to install</h2>
+          <p class="lead">On Raspberry Pi there's no installer: the system boots up ready to go, straight from the card.</p>
           <ul class="steps-list">
-            <li>The system starts up already ready to go, directly from the drive.</li>
-            <li><b>Leave the drive plugged in at all times:</b> that's where the system lives, not on the internal disk.</li>
+            <li>On the first boot the Pi prepares the system and restarts once: that's normal.</li>
+            <li><b>Leave the card inserted at all times:</b> that's where the system lives.</li>
             <li>Go ahead to the next step for the first boot and network setup.</li>
           </ul>
-          <div class="info-box">💡 Handy for trying Osmium Sound without touching the mini PC, or for taking it with you from one machine to another.</div>
+          <div class="info-box">💡 If you plugged the screen into the second HDMI port, the player appears on the first boot; otherwise just carry on from the browser.</div>
         </div>
       </div>
 
@@ -597,7 +738,8 @@
         <div class="step-eyebrow">Done</div>
         <div class="done-badge">🎧</div>
         <h2 class="step-title" style="text-align:center;">Osmium Sound is ready</h2>
-        <p class="lead" style="text-align:center;">A mini PC, a USB drive, a screen or remote, and a browser to set it up: that's everything you needed. Enjoy the music.</p>
+        <p class="lead plat-block show" data-plat="x86" style="text-align:center;">A mini PC, a USB drive, a screen or remote, and a browser to set it up: that's everything you needed. Enjoy the music.</p>
+        <p class="lead plat-block" data-plat="rpi" style="text-align:center;">A Raspberry Pi, a microSD card, a screen or remote, and a browser to set it up: that's everything you needed. Enjoy the music.</p>
         <div style="text-align:center;">
           <div class="url-pill">🌐 Full guide at <a href="https://osmiumsound.it/manual" target="_blank" rel="noopener">osmiumsound.it/manual</a></div>
         </div>
@@ -857,6 +999,20 @@
     }
     modeChips.forEach(function(c){ c.addEventListener('click', function(){ setMode(c.getAttribute('data-mode')); }); });
     setMode('screen');
+
+    // Platform chips (step 0): x86 mini PC vs Raspberry Pi.
+    // Toggles every [data-plat] block so the hardware steps (download, write,
+    // boot, install) swap wholesale while the web-setup steps stay shared.
+    var platform = 'x86';
+    var platChips = document.querySelectorAll('#platform-chips .chip');
+    var platBlocks = document.querySelectorAll('.plat-block[data-plat]');
+    function applyPlatform(){
+      platChips.forEach(function(c){ c.classList.toggle('active', c.getAttribute('data-plat')===platform); });
+      platBlocks.forEach(function(b){ b.classList.toggle('show', b.getAttribute('data-plat')===platform); });
+      reportHeight();
+    }
+    platChips.forEach(function(c){ c.addEventListener('click', function(){ platform = c.getAttribute('data-plat'); applyPlatform(); }); });
+    applyPlatform();
 
     updateNav();
   }
