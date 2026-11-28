@@ -243,6 +243,7 @@
     <a href="#en-vu">VU meters</a>
     <a href="#en-animations">Animations</a>
     <a href="#en-remote">Remote control</a>
+    <a href="#en-remote-card">Remote control card</a>
 
     <div class="grp">Advanced configuration</div>
     <a href="#en-sources">Music sources</a>
@@ -260,6 +261,7 @@
     <a href="#en-reset">Factory reset</a>
 
     <div class="grp">Support</div>
+    <a href="#en-support">Support bundle</a>
     <a href="#en-troubleshooting">Troubleshooting</a>
     <a href="#en-resources">Resources & links</a>
   </nav>
@@ -279,6 +281,7 @@
     <a href="#it-vu">VU meter</a>
     <a href="#it-animazioni">Animazioni</a>
     <a href="#it-telecomando">Telecomando</a>
+    <a href="#it-remote-card">Scheda del telecomando</a>
 
     <div class="grp">Configurazione avanzata</div>
     <a href="#it-sorgenti">Sorgenti musicali</a>
@@ -296,6 +299,7 @@
     <a href="#it-reset">Reset di fabbrica</a>
 
     <div class="grp">Assistenza</div>
+    <a href="#it-support">Archivio di supporto</a>
     <a href="#it-risoluzione-problemi">Risoluzione dei problemi</a>
     <a href="#it-risorse">Risorse e link utili</a>
   </nav>
@@ -476,7 +480,6 @@
 
       <section id="en-web-admin">
         <h2>Web administration</h2>
-        <figure class="shot"><img src="/screens/manual/gif/audio-output-en.gif" alt="A settings panel in web administration." loading="lazy"><figcaption>A settings panel in web administration.</figcaption></figure>
         <p>Every Osmium Sound device exposes a web administration page reachable from any browser on the same network — especially useful for headless or server-only devices, but always available. The address to use is the device's <strong>IP address</strong>, visible in Settings → System info (on screen or in the companion app), the web admin session itself, or your router's device list:</p>
         <table>
           <tr><th>Address</th><th>What's there</th></tr>
@@ -525,7 +528,6 @@
 
       <section id="en-daily-use">
         <h2>Daily use</h2>
-        <figure class="shot"><img src="/screens/manual/gif/playback-en.gif" alt="Playback options." loading="lazy"><figcaption>Playback options.</figcaption></figure>
         <ul>
           <li><strong>Now Playing</strong> — the expanded view shows the analog VU meters (see <a href="#en-vu">VU meters</a>) — or, with them off, an animation (see <a href="#en-animations">Animations</a>) — and a status plate: the kind of audio playing (Hi-Res, PCM, DSD) and whether BitPerfect or ReplayGain is on. Tap BitPerfect or ReplayGain to jump straight to the setting behind it. Next to the clock, one button shows the VU meters (or the animation) at <strong>full screen</strong> with the title, artist and progress, and two more open a chooser of <strong>VU meter looks</strong> and of <strong>animations</strong>, each with a preview: picking a look turns the meters on, picking an animation turns them off. The gear at the right end of Now Playing's top buttons goes straight to Settings.</li>
           <li><strong>Choosing the player</strong> — tap the player name in the bar at the bottom (or the speaker button in Now Playing) to see the other players on the same music server, and pick one to control it from this screen: what's playing, the queue, the volume. The name turns gold as a reminder. Settings that belong to this device are hidden meanwhile, with a <strong>Back to this device</strong> button; after a restart the screen is always back on its own player.</li>
@@ -595,9 +597,14 @@
         <p>A keyboard's or a sound card's own play and volume keys keep working as keys and are not taken for a remote. In web administration you can download a <strong>remote control card</strong> with what the device sees, to send to support.</p>
       </section>
 
+      <section id="en-remote-card">
+        <h2>Remote control card</h2>
+        <figure class="shot"><img src="/screens/manual/gif/remote-card-en.gif" alt="Opening the remote control card." loading="lazy"><figcaption>Opening the remote control card.</figcaption></figure>
+        <p>Settings → Control &amp; remotes → Remote control gathers everything about the remote in one place: the remotes connected now, a <strong>Show the keys here</strong> switch that prints what each key actually sends (handy to check an unfamiliar remote), presets for known remotes such as Fire TV, the G20S PRO and Xiaomi, and the remote control card. <strong>Download the remote control card</strong> saves a small file describing your remote — what it reports, how Osmium recognised it and what the kernel sees, with device names and Bluetooth addresses — useful to send when a remote misbehaves and whoever helps you does not have it in hand.</p>
+      </section>
+
       <section id="en-sources">
         <h2>Music sources</h2>
-        <figure class="shot"><img src="/screens/manual/gif/sources-en.gif" alt="Music sources." loading="lazy"><figcaption>Music sources.</figcaption></figure>
         <p>Osmium Sound reads your music library from one or more sources, configurable from Settings (or during initial setup):</p>
         <ul>
           <li><strong>Network folder</strong> — a NAS or a shared folder on another computer. You don't need to know its address: the device looks for the computers and NAS on your network, lists their shared folders, and asks for a username and password in a small window only if the folder needs them. If it can't connect, it tells you why in plain words (the technical details stay one tap away). You can still type everything in by hand. A folder is added writable, unless the server only allows reading; each one can be toggled between read-only and writable at any time — handy if you also want to rip CDs onto it.</li>
@@ -682,7 +689,9 @@
           <span class="label">Windows keeps refusing the password?</span>
           <p>Windows may still be trying an old password it remembered. Open <em>Credential Manager</em> (search for it in the Start menu) → <em>Windows Credentials</em>, remove the entry for the device, then open the folder again. The same applies after <em>Regenerate password</em>.</p>
         </div>
-      </section>
+              <p>You can also tidy up what is on the device with the built-in file manager: Settings → Music sources → <strong>Manage files</strong> opens a two-pane browser to copy, move, rename and delete files across the music folders and network shares.</p>
+        <figure class="shot"><img src="/screens/manual/gif/file-manager-en.gif" alt="The built-in two-pane file manager." loading="lazy"><figcaption>The built-in two-pane file manager.</figcaption></figure>
+</section>
 
       <section id="en-streaming">
         <h2>Streaming services</h2>
@@ -933,6 +942,13 @@
         </div>
       </section>
 
+      <section id="en-support">
+        <h2>Support bundle</h2>
+        <figure class="shot"><img src="/screens/manual/gif/support-bundle-en.gif" alt="Generating the support bundle." loading="lazy"><figcaption>Generating the support bundle.</figcaption></figure>
+        <p>When something goes wrong, the device can gather its logs and system information into a single zip you can send for help — nothing is uploaded on its own.</p>
+        <p>Settings → System &amp; updates → System → <strong>Generate support bundle</strong>. The browser downloads a <code>support-bundle.zip</code> with the device logs and system details; attach it to your message to <a href="mailto:info@osmiumsound.it">info@osmiumsound.it</a>. It holds technical logs only — no music and no passwords.</p>
+      </section>
+
       <section id="en-troubleshooting">
         <h2>Troubleshooting</h2>
         <table>
@@ -1149,7 +1165,6 @@
 
       <section id="it-amministrazione-web">
         <h2>Amministrazione web</h2>
-        <figure class="shot"><img src="/screens/manual/gif/audio-output-it.gif" alt="Un pannello delle impostazioni nell’amministrazione web." loading="lazy"><figcaption>Un pannello delle impostazioni nell’amministrazione web.</figcaption></figure>
         <p>Ogni dispositivo Osmium Sound espone una pagina di amministrazione web raggiungibile da qualsiasi browser sulla stessa rete, utile in particolare per i dispositivi in modalità headless o solo server, ma disponibile sempre. L'indirizzo da usare è l'<strong>indirizzo IP</strong> del dispositivo, visibile in Impostazioni → Info di sistema (a schermo o nell'app companion), nella sessione di amministrazione web stessa, oppure nell'elenco dispositivi del router:</p>
         <table>
           <tr><th>Indirizzo</th><th>Cosa trovi</th></tr>
@@ -1198,7 +1213,6 @@
 
       <section id="it-uso-quotidiano">
         <h2>Uso quotidiano</h2>
-        <figure class="shot"><img src="/screens/manual/gif/playback-it.gif" alt="Opzioni di riproduzione." loading="lazy"><figcaption>Opzioni di riproduzione.</figcaption></figure>
         <ul>
           <li><strong>Now Playing</strong> — la vista espansa mostra i VU meter analogici (vedi <a href="#it-vu">VU meter</a>) — oppure, se sono spenti, un'animazione (vedi <a href="#it-animazioni">Animazioni</a>) — e una targa di stato: il tipo di audio in riproduzione (Hi-Res, PCM, DSD) e se BitPerfect o ReplayGain sono attivi. Tocca BitPerfect o ReplayGain per andare dritto all'impostazione corrispondente. Accanto all'orologio, un pulsante mostra i VU meter (o l'animazione) a <strong>schermo intero</strong> con titolo, artista e avanzamento, e altri due aprono la scelta degli <strong>aspetti dei VU meter</strong> e delle <strong>animazioni</strong>, ognuno con l'anteprima: scegliere un aspetto accende i VU meter, scegliere un'animazione li spegne. L'ingranaggio all'estremità destra dei pulsanti in alto di Now Playing porta dritto alle Impostazioni.</li>
           <li><strong>Scegliere il player</strong> — tocca il nome del player nella barra in basso (o il pulsante con l'altoparlante in Now Playing) per vedere gli altri player dello stesso server musicale, e scegline uno per comandarlo da questo schermo: cosa suona, la coda, il volume. Il nome diventa dorato come promemoria. Nel frattempo le impostazioni che riguardano questo apparecchio sono nascoste, con un pulsante <strong>Torna a questo apparecchio</strong>; dopo un riavvio lo schermo torna sempre al proprio player.</li>
@@ -1268,9 +1282,14 @@
         <p>I tasti di riproduzione e volume di una tastiera o di una scheda audio continuano a funzionare come tasti e non vengono presi per un telecomando. Dall'amministrazione web puoi scaricare una <strong>scheda del telecomando</strong> con quello che vede l'apparecchio, da mandare all'assistenza.</p>
       </section>
 
+      <section id="it-remote-card">
+        <h2>Scheda del telecomando</h2>
+        <figure class="shot"><img src="/screens/manual/gif/remote-card-it.gif" alt="Apertura della scheda del telecomando." loading="lazy"><figcaption>Apertura della scheda del telecomando.</figcaption></figure>
+        <p>Impostazioni → Controllo e telecomandi → Telecomando raccoglie tutto sul telecomando in un posto: i telecomandi collegati ora, un interruttore <strong>Mostra i tasti qui</strong> che stampa cosa invia davvero ogni tasto (comodo per controllare un telecomando sconosciuto), i preset per i telecomandi noti come Fire TV, il G20S PRO e Xiaomi, e la scheda del telecomando. <strong>Scarica la scheda del telecomando</strong> salva un file che descrive il telecomando — cosa dichiara, come Osmium lo ha riconosciuto e cosa vede il kernel, con i nomi dei dispositivi e gli indirizzi Bluetooth — utile da inviare quando un telecomando fa i capricci e chi ti aiuta non ce l'ha tra le mani.</p>
+      </section>
+
       <section id="it-sorgenti">
         <h2>Sorgenti musicali</h2>
-        <figure class="shot"><img src="/screens/manual/gif/sources-it.gif" alt="Sorgenti musicali." loading="lazy"><figcaption>Sorgenti musicali.</figcaption></figure>
         <p>Osmium Sound legge la libreria musicale da una o più sorgenti, configurabili dalle Impostazioni (o durante il setup iniziale):</p>
         <ul>
           <li><strong>Cartella di rete</strong> — un NAS o una cartella condivisa su un altro computer. Non serve conoscerne l'indirizzo: il dispositivo cerca i computer e i NAS della tua rete, ne elenca le cartelle condivise e chiede nome utente e password in una piccola finestra solo se la cartella li richiede. Se non riesce a collegarsi, ti spiega il motivo a parole semplici (i dettagli tecnici restano a un tocco di distanza). Puoi comunque scrivere tutto a mano. Una cartella viene aggiunta scrivibile, a meno che il server permetta solo di leggere; ognuna può essere resa scrivibile o di sola lettura in qualsiasi momento — comodo se vuoi anche rippare CD al suo interno.</li>
@@ -1355,7 +1374,9 @@
           <span class="label">Windows continua a rifiutare la password?</span>
           <p>Windows potrebbe ancora usare una vecchia password che si era memorizzato. Apri <em>Gestione credenziali</em> (cercala nel menu Start) → <em>Credenziali di Windows</em>, togli la voce dell'apparecchio e riapri la cartella. Vale anche dopo <em>Rigenera password</em>.</p>
         </div>
-      </section>
+              <p>Puoi anche sistemare quello che sta sull'apparecchio con il file manager integrato: Impostazioni → Sorgenti musicali → <strong>Gestisci i file</strong> apre un browser a due pannelli per copiare, spostare, rinominare ed eliminare i file tra le cartelle della musica e le condivisioni di rete.</p>
+        <figure class="shot"><img src="/screens/manual/gif/file-manager-it.gif" alt="Il file manager integrato a due pannelli." loading="lazy"><figcaption>Il file manager integrato a due pannelli.</figcaption></figure>
+</section>
 
       <section id="it-streaming">
         <h2>Servizi di streaming</h2>
@@ -1604,6 +1625,13 @@
           <span class="label">Password dimenticata?</span>
           <p>Se dimentichi la password dell'amministrazione web, puoi reimpostarla dalle Impostazioni a schermo (se disponibile) oppure procedere con un reset di fabbrica.</p>
         </div>
+      </section>
+
+      <section id="it-support">
+        <h2>Archivio di supporto</h2>
+        <figure class="shot"><img src="/screens/manual/gif/support-bundle-it.gif" alt="Generazione dell’archivio di supporto." loading="lazy"><figcaption>Generazione dell’archivio di supporto.</figcaption></figure>
+        <p>Quando qualcosa non va, l'apparecchio può raccogliere i suoi log e le informazioni di sistema in un unico zip da inviare per chiedere aiuto — niente viene caricato da solo.</p>
+        <p>Impostazioni → Sistema e aggiornamenti → Sistema → <strong>Genera archivio di supporto</strong>. Il browser scarica un <code>support-bundle.zip</code> con i log del dispositivo e i dettagli di sistema; allegalo al messaggio per <a href="mailto:info@osmiumsound.it">info@osmiumsound.it</a>. Contiene solo log tecnici — nessuna musica e nessuna password.</p>
       </section>
 
       <section id="it-risoluzione-problemi">
