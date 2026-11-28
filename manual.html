@@ -216,6 +216,11 @@
     <a href="#en-installation">Installation</a>
     <a href="#en-first-boot">First boot and setup</a>
 
+    <div class="grp">Raspberry Pi</div>
+    <a href="#en-rpi">Supported boards</a>
+    <a href="#en-rpi-install">Installation on Raspberry Pi</a>
+    <a href="#en-rpi-audio">Audio, DAC HATs and displays</a>
+
     <div class="grp">Modes & usage</div>
     <a href="#en-modes">Device modes</a>
     <a href="#en-web-admin">Web administration</a>
@@ -253,6 +258,11 @@
     <a href="#it-requisiti">Requisiti hardware</a>
     <a href="#it-installazione">Installazione</a>
     <a href="#it-primo-avvio">Primo avvio e configurazione</a>
+
+    <div class="grp">Raspberry Pi</div>
+    <a href="#it-rpi">Schede supportate</a>
+    <a href="#it-rpi-install">Installazione su Raspberry Pi</a>
+    <a href="#it-rpi-audio">Audio, DAC HAT e display</a>
 
     <div class="grp">Modalità e utilizzo</div>
     <a href="#it-modalita">Modalità del dispositivo</a>
@@ -327,6 +337,10 @@
         <div class="box tip">
           <span class="label">Note</span>
           <p>No high-end hardware needed: Osmium Sound runs well on inexpensive or recycled mini-PCs.</p>
+        </div>
+        <div class="box tip">
+          <span class="label">On a Raspberry Pi instead?</span>
+          <p>Osmium Sound also comes as a Raspberry Pi image. The requirements and flashing steps are different — see <a href="#en-rpi">Raspberry Pi: supported boards</a> and <a href="#en-rpi-install">Installation on Raspberry Pi</a>. Everything after first boot is the same.</p>
         </div>
       </section>
 
@@ -424,6 +438,70 @@
         <div class="box tip">
           <span class="label">No certificate warnings</span>
           <p>Osmium Sound's web administration is plain HTTP — there's no TLS certificate to trust or click through. A per-device self-signed certificate was tried and dropped: it just meant an extra "connection not private" warning on first visit, for no real gain on a local-only address like <code>hifiplayer.local</code>.</p>
+        </div>
+      </section>
+
+      <section id="en-rpi">
+        <h2>Raspberry Pi: supported boards</h2>
+        <p>Besides the x86 mini-PC version, Osmium Sound also comes as a ready-to-run <strong>Raspberry Pi</strong> image. Everything in the rest of this manual — web administration, music sources, streaming services, VU meters, animations, remote control, backup, OTA updates — works exactly the same on the Pi. Only three things differ, and this short group covers them: the <strong>supported boards</strong>, how you <strong>flash and boot</strong> the card, and the Pi-only <strong>audio and display</strong> settings (second HDMI port, DAC HAT and DSI panel). If you are installing on a mini-PC instead, skip this group and follow <a href="#en-installation">Installation</a>.</p>
+        <table>
+          <tr><th>Component</th><th>Requirement</th></tr>
+          <tr><td>Board</td><td><strong>Raspberry Pi 4</strong>, <strong>Raspberry Pi 5</strong> or <strong>Compute Module 5 (CM5)</strong> — any 64-bit model — <strong>with its bootloader updated to the latest version</strong> (see <a href="#en-rpi-install">Installation on Raspberry Pi</a>; it is the single most important requirement for the card to boot).</td></tr>
+          <tr><td>Storage</td><td><strong>microSD</strong> card or <strong>USB SSD</strong>, 16&nbsp;GB or larger. The system runs from the card — there is nothing to install onto an internal disk.</td></tr>
+          <tr><td>Screen (optional)</td><td>A screen or TV on the <strong>second HDMI port</strong> — the one farther from the USB-C power connector. On Osmium the HDMI audio comes out of that port only (see <a href="#en-rpi-audio">Audio, DAC HATs and displays</a>). A DSI touchscreen is also supported.</td></tr>
+          <tr><td>Audio output</td><td>USB DAC, an I²S <strong>DAC HAT</strong> (chosen in Settings, see below), HDMI (second port) or Bluetooth speakers. DSD, sample-rate limit and the other player options behave as on x86.</td></tr>
+          <tr><td>Power</td><td>The official supply for your board (a Pi 5 / CM5 is happier with the 27&nbsp;W USB-C PD supply). An underpowered supply shows up as random freezes.</td></tr>
+          <tr><td>Setup device</td><td>Any device with a browser — phone, tablet or PC — for first setup, exactly as on x86.</td></tr>
+        </table>
+        <div class="box tip">
+          <span class="label">Same features, different package</span>
+          <p>The Pi and x86 builds share the same custom code, so the two stay in step release for release. Pick the one that matches the hardware you have; the day-to-day manual below is written for both.</p>
+        </div>
+      </section>
+
+      <section id="en-rpi-install">
+        <h2>Installation on Raspberry Pi</h2>
+        <p>Installing on a Raspberry Pi means <strong>writing the image to a card</strong> — there is no installer to run and nothing is written to an internal disk. The board boots straight from the microSD or USB SSD. Two things matter before you start: <strong>update the bootloader first</strong>, and <strong>plug the screen into the second HDMI port</strong>.</p>
+
+        <ol class="steps">
+          <li><strong>Update the Raspberry Pi bootloader to the latest version</strong>
+            This is the most important step: an old bootloader can keep the board from booting off the card. In <strong>Raspberry Pi Imager</strong> pick your model, then <em>Operating System → “Misc utility images” → “Bootloader”</em> (boot from SD/USB); write it to a card, put it in the Pi and power it on once — it updates the EEPROM on its own and powers off. Alternatively, from a Pi already running Pi OS, run <code>sudo rpi-eeprom-update -a</code> and reboot.</li>
+          <li><strong>Download the Raspberry Pi image</strong>
+            Get <code>osmium-rpi-2.5.27.img.xz</code> from the <a href="index.html#install">download section</a> of the website (also on <a href="https://github.com/adri6412/osmium-sound-raspberry/releases" target="_blank" rel="noopener">GitHub</a>).</li>
+          <li><strong>Write the image to the card</strong>
+            In <strong>Raspberry Pi Imager</strong> choose <em>Operating System → “Use custom”</em>, pick the <code>osmium-rpi-2.5.27.img.xz</code> file you downloaded, and write it to the microSD card or USB SSD. <a href="https://etcher.balena.io/" target="_blank" rel="noopener">balenaEtcher</a> or the <code>dd</code> command work just as well. The card is formatted — everything on it is erased, so use one with nothing important on it.</li>
+          <li><strong>Plug the screen into the second HDMI port</strong>
+            If you will use a screen, connect it (or the TV) to the <strong>second HDMI port</strong>, the one farther from the USB-C power connector — the audio comes out of that port (see <a href="#en-rpi-audio">Audio, DAC HATs and displays</a>). A DSI touchscreen can be used instead.</li>
+          <li><strong>Insert the card and power on</strong>
+            Put the card (or USB SSD) into the Pi and power it up. It boots Osmium Sound straight away; leave the card in place — it is the system disk. First setup then runs from the browser exactly as described in <a href="#en-first-boot">First boot and setup</a>.</li>
+        </ol>
+
+        <div class="box warn">
+          <span class="label">Warning</span>
+          <p>Writing the image <strong>erases everything</strong> on the microSD card or USB SSD. Double-check you picked the right card before writing.</p>
+        </div>
+        <div class="box ok">
+          <span class="label">Only needed for the first install</span>
+          <p>The image is only needed to set the Pi up the first time. Every later update arrives over the internet (<strong>OTA</strong>) from the Settings screen, the same as on x86 — no need to reflash the card.</p>
+        </div>
+      </section>
+
+      <section id="en-rpi-audio">
+        <h2>Audio, DAC HATs and displays</h2>
+        <p>On the Raspberry Pi a few hardware choices live in Settings that have no equivalent on a mini-PC. They are all under Settings → Audio and Settings → Display, on the device's screen and in web administration.</p>
+
+        <h3>HDMI audio comes out of the second port</h3>
+        <p>If you send audio over HDMI, use the <strong>second HDMI port</strong> — the one farther from the USB-C power connector. On this build the HDMI audio is wired to that port only: plug the screen into the first one and you get a picture but no sound. This matters just for HDMI output; a USB DAC or a DAC HAT is unaffected by which HDMI port the screen uses.</p>
+
+        <h3>I²S DAC HAT</h3>
+        <p>If you use an I²S <strong>DAC HAT</strong> stacked on the board's GPIO header (rather than a USB DAC), tell Osmium which one it is: Settings → <strong>Audio output</strong> → <em>DAC HAT</em> lists the supported boards — pick yours, and the device configures the right overlay and reboots. Your choice is kept across OTA updates. Leave it on <em>None / USB or HDMI</em> if you are not using a HAT.</p>
+
+        <h3>DSI touchscreen</h3>
+        <p>For an official DSI touchscreen (or a compatible panel), Settings → <strong>Display</strong> → <em>DSI panel</em> lets you select the panel you have, the twin of the DAC-HAT picker: pick it and the device enables the matching display overlay and reboots. Like the DAC HAT, the choice survives OTA updates. An HDMI screen needs nothing here.</p>
+
+        <div class="box tip">
+          <span class="label">Everything else is the same</span>
+          <p>Once the HAT and screen are set, the Pi behaves like any other Osmium Sound device: audio output, Bluetooth, sources, VU meters and the rest are configured exactly as described in the sections below.</p>
         </div>
       </section>
 
@@ -1013,6 +1091,10 @@
           <span class="label">Nota</span>
           <p>Non serve un dispositivo di fascia alta: Osmium Sound gira bene su mini-PC economici o riciclati.</p>
         </div>
+        <div class="box tip">
+          <span class="label">Hai un Raspberry Pi?</span>
+          <p>Osmium Sound esiste anche come immagine per Raspberry Pi. I requisiti e i passi di scrittura sono diversi — vedi <a href="#it-rpi">Raspberry Pi: schede supportate</a> e <a href="#it-rpi-install">Installazione su Raspberry Pi</a>. Dal primo avvio in poi è tutto identico.</p>
+        </div>
       </section>
 
       <section id="it-installazione">
@@ -1109,6 +1191,70 @@
         <div class="box tip">
           <span class="label">Nessun avviso di certificato</span>
           <p>L'amministrazione web di Osmium Sound è in HTTP semplice — non c'è nessun certificato TLS da approvare. Un certificato autofirmato per dispositivo era stato provato e poi scartato: significava solo un avviso "connessione non privata" in più al primo accesso, senza reale vantaggio su un indirizzo solo locale come <code>hifiplayer.local</code>.</p>
+        </div>
+      </section>
+
+      <section id="it-rpi">
+        <h2>Raspberry Pi: schede supportate</h2>
+        <p>Oltre alla versione per mini-PC x86, Osmium Sound è disponibile anche come immagine <strong>Raspberry Pi</strong> pronta all'uso. Tutto il resto di questo manuale — amministrazione web, sorgenti musicali, servizi di streaming, VU meter, animazioni, telecomando, backup, aggiornamenti OTA — funziona esattamente allo stesso modo sul Pi. Cambiano solo tre cose, raccolte in questo breve gruppo: le <strong>schede supportate</strong>, come si <strong>scrive e avvia</strong> la scheda, e le impostazioni di <strong>audio e display</strong> specifiche del Pi (seconda porta HDMI, DAC HAT e pannello DSI). Se invece stai installando su un mini-PC, salta questo gruppo e segui <a href="#it-installazione">Installazione</a>.</p>
+        <table>
+          <tr><th>Componente</th><th>Requisito</th></tr>
+          <tr><td>Scheda</td><td><strong>Raspberry Pi 4</strong>, <strong>Raspberry Pi 5</strong> o <strong>Compute Module 5 (CM5)</strong> — qualsiasi modello a 64 bit — <strong>con il bootloader aggiornato all'ultima versione</strong> (vedi <a href="#it-rpi-install">Installazione su Raspberry Pi</a>; è il requisito più importante perché la scheda si avvii).</td></tr>
+          <tr><td>Memoria</td><td>Scheda <strong>microSD</strong> oppure <strong>SSD USB</strong>, da 16&nbsp;GB o più. Il sistema gira dalla scheda — non c'è nulla da installare su un disco interno.</td></tr>
+          <tr><td>Schermo (opzionale)</td><td>Uno schermo o una TV sulla <strong>seconda porta HDMI</strong> — quella più lontana dal connettore di alimentazione USB-C. Su Osmium l'audio HDMI esce solo da quella porta (vedi <a href="#it-rpi-audio">Audio, DAC HAT e display</a>). È supportato anche un touchscreen DSI.</td></tr>
+          <tr><td>Uscita audio</td><td>DAC USB, un <strong>DAC HAT</strong> I²S (scelto nelle Impostazioni, vedi sotto), HDMI (seconda porta) o altoparlanti Bluetooth. DSD, limite di campionamento e le altre opzioni del player si comportano come su x86.</td></tr>
+          <tr><td>Alimentazione</td><td>L'alimentatore ufficiale della scheda (un Pi 5 / CM5 preferisce l'alimentatore USB-C PD da 27&nbsp;W). Un alimentatore insufficiente si manifesta con freeze casuali.</td></tr>
+          <tr><td>Dispositivo di setup</td><td>Un qualsiasi dispositivo con browser — telefono, tablet o PC — per la prima configurazione, esattamente come su x86.</td></tr>
+        </table>
+        <div class="box tip">
+          <span class="label">Stesse funzioni, confezione diversa</span>
+          <p>Le build Pi e x86 condividono lo stesso codice personalizzato, quindi restano allineate rilascio per rilascio. Scegli quella adatta all'hardware che hai; il manuale d'uso qui sotto vale per entrambe.</p>
+        </div>
+      </section>
+
+      <section id="it-rpi-install">
+        <h2>Installazione su Raspberry Pi</h2>
+        <p>Installare su Raspberry Pi significa <strong>scrivere l'immagine su una scheda</strong>: non c'è nessun installer da eseguire e non si scrive nulla su un disco interno. La scheda si avvia direttamente dalla microSD o dall'SSD USB. Due cose contano prima di cominciare: <strong>aggiornare prima il bootloader</strong> e <strong>collegare lo schermo alla seconda porta HDMI</strong>.</p>
+
+        <ol class="steps">
+          <li><strong>Aggiorna il bootloader del Raspberry Pi all'ultima versione</strong>
+            È il passo più importante: un bootloader vecchio può impedire l'avvio dalla scheda. In <strong>Raspberry Pi Imager</strong> scegli il tuo modello, poi <em>Sistema operativo → «Misc utility images» → «Bootloader»</em> (avvio da SD/USB); scrivilo su una scheda, inseriscila nel Pi e accendilo una volta — aggiorna la EEPROM da solo e si spegne. In alternativa, da un Pi già con Pi OS, esegui <code>sudo rpi-eeprom-update -a</code> e riavvia.</li>
+          <li><strong>Scarica l'immagine per Raspberry Pi</strong>
+            Prendi <code>osmium-rpi-2.5.27.img.xz</code> dalla <a href="index.html#install">sezione download</a> del sito (anche su <a href="https://github.com/adri6412/osmium-sound-raspberry/releases" target="_blank" rel="noopener">GitHub</a>).</li>
+          <li><strong>Scrivi l'immagine sulla scheda</strong>
+            In <strong>Raspberry Pi Imager</strong> scegli <em>Sistema operativo → «Usa immagine personalizzata»</em>, seleziona il file <code>osmium-rpi-2.5.27.img.xz</code> scaricato e scrivilo sulla microSD o sull'SSD USB. Vanno bene anche <a href="https://etcher.balena.io/" target="_blank" rel="noopener">balenaEtcher</a> o il comando <code>dd</code>. La scheda viene formattata — tutto ciò che contiene viene cancellato, quindi usane una senza dati importanti.</li>
+          <li><strong>Collega lo schermo alla seconda porta HDMI</strong>
+            Se userai uno schermo, collegalo (o collega la TV) alla <strong>seconda porta HDMI</strong>, quella più lontana dal connettore di alimentazione USB-C: l'audio esce da quella porta (vedi <a href="#it-rpi-audio">Audio, DAC HAT e display</a>). In alternativa si può usare un touchscreen DSI.</li>
+          <li><strong>Inserisci la scheda e accendi</strong>
+            Metti la scheda (o l'SSD USB) nel Pi e accendilo. Avvia subito Osmium Sound; lascia la scheda inserita — è il disco di sistema. La prima configurazione prosegue dal browser esattamente come descritto in <a href="#it-primo-avvio">Primo avvio e configurazione</a>.</li>
+        </ol>
+
+        <div class="box warn">
+          <span class="label">Attenzione</span>
+          <p>Scrivere l'immagine <strong>cancella tutto</strong> ciò che si trova sulla microSD o sull'SSD USB. Controlla bene di aver scelto la scheda giusta prima di scrivere.</p>
+        </div>
+        <div class="box ok">
+          <span class="label">Serve solo per la prima installazione</span>
+          <p>L'immagine serve solo a configurare il Pi la prima volta. Ogni aggiornamento successivo arriva via internet (<strong>OTA</strong>) dalla schermata Impostazioni, come su x86 — non serve riscrivere la scheda.</p>
+        </div>
+      </section>
+
+      <section id="it-rpi-audio">
+        <h2>Audio, DAC HAT e display</h2>
+        <p>Sul Raspberry Pi alcune scelte hardware vivono nelle Impostazioni e non hanno equivalente su un mini-PC. Si trovano tutte sotto Impostazioni → Audio e Impostazioni → Display, sullo schermo del dispositivo e nell'amministrazione web.</p>
+
+        <h3>L'audio HDMI esce dalla seconda porta</h3>
+        <p>Se mandi l'audio via HDMI, usa la <strong>seconda porta HDMI</strong> — quella più lontana dal connettore di alimentazione USB-C. Su questa build l'audio HDMI è cablato solo su quella porta: collega lo schermo alla prima e avrai l'immagine ma nessun suono. Questo vale solo per l'uscita HDMI; un DAC USB o un DAC HAT non è influenzato dalla porta HDMI usata per lo schermo.</p>
+
+        <h3>DAC HAT I²S</h3>
+        <p>Se usi un <strong>DAC HAT</strong> I²S innestato sul connettore GPIO della scheda (anziché un DAC USB), indica a Osmium quale sia: Impostazioni → <strong>Uscita audio</strong> → <em>DAC HAT</em> elenca le schede supportate — scegli la tua e il dispositivo configura l'overlay corretto e si riavvia. La scelta viene mantenuta attraverso gli aggiornamenti OTA. Lasciala su <em>Nessuno / USB o HDMI</em> se non usi un HAT.</p>
+
+        <h3>Touchscreen DSI</h3>
+        <p>Per un touchscreen DSI ufficiale (o un pannello compatibile), Impostazioni → <strong>Display</strong> → <em>Pannello DSI</em> permette di selezionare il pannello che hai, gemello del selettore del DAC HAT: scegli il pannello e il dispositivo abilita l'overlay di display corrispondente e si riavvia. Come per il DAC HAT, la scelta sopravvive agli aggiornamenti OTA. Uno schermo HDMI non richiede nulla qui.</p>
+
+        <div class="box tip">
+          <span class="label">Tutto il resto è identico</span>
+          <p>Una volta impostati HAT e schermo, il Pi si comporta come qualsiasi altro dispositivo Osmium Sound: uscita audio, Bluetooth, sorgenti, VU meter e il resto si configurano esattamente come descritto nelle sezioni che seguono.</p>
         </div>
       </section>
 
